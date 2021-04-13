@@ -4,6 +4,12 @@ class WorkingForm{
         this.path = path;
         this.result = false;
         this.status = [];
+        this.name = '';
+        this.surname = '';
+        this.email = '';
+        this.password = '';
+        this.repeatPassword = '';  
+
         this.render();
     }
 
@@ -53,41 +59,59 @@ class WorkingForm{
     checkForm(){
         let status = []
 
-        if(document.getElementById('name').value == ''){
+        if(this.name == ''){
             status.push('errorName')
         }
 
-        if(document.getElementById('surname').value == ''){
+        if(this.surname == ''){
             status.push('errorSurname')
         }
 
-        if(document.getElementById('email').value == ''){
+        if(this.email== ''){
             status.push('errorEmptyEmail')
         }
 
         if(status.indexOf('errorEmptyEmail') == -1){
             const re  = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if(!re.test(document.getElementById('email').value)){
+            if(!re.test(this.email)){
                 status.push('errorEmail');
             }
         }
 
-        if(document.getElementById('password').value == ''){
+        if(this.password == ''){
             status.push('errorEmptyPass')
         }
 
-        if(document.getElementById('repeatPassword').value == ''){
+        if(this.repeatPassword == ''){
             status.push('errorEmptyReapetPass')
         }
 
         if(status.indexOf('errorEmptyEmail') == -1 && status.indexOf('errorEmptyReapetPass') == -1){
-            if(document.getElementById('password').value != document.getElementById('repeatPassword').value){
+            if(this.password != this.repeatPassword){
                 status.push('errorPass');
             }
         }
 
 
         this.status = status;
+    }
+
+    changeInput(){
+        document.getElementById('name').addEventListener('change', ()=>{
+            this.name = document.getElementById('name').value;
+        })
+        document.getElementById('surname').addEventListener('change', ()=>{
+            this.surname = document.getElementById('surname').value;
+        })
+        document.getElementById('email').addEventListener('change', ()=>{
+            this.email = document.getElementById('email').value;
+        })
+        document.getElementById('password').addEventListener('change', ()=>{
+            this.password = document.getElementById('password').value;
+        })
+        document.getElementById('repeatPassword').addEventListener('change', ()=>{
+            this.repeatPassword = document.getElementById('repeatPassword').value;
+        })
     }
 
     render()
@@ -101,30 +125,30 @@ class WorkingForm{
                 ${this.status.length > 0 ? '<p class="bg-danger text-light text-center py-2 rounded">Исправьте ошибки в форме, они выделены красным</p>' : ''}
                 <div class="mb-3">
                   <label class="form-label">Имя</label>
-                  <input type="text" class="form-control ${this.status.indexOf('errorName') != -1 ? 'bg-danger text-light' : ''}" id="name">
+                  <input type="text" value="${this.name}"class="form-control ${this.status.indexOf('errorName') != -1 ? 'bg-danger text-light' : ''}" id="name">
                   ${this.status.indexOf('errorName') != -1 ? '<div class="form-text text-danger">Поле не должно быть пустым</div>' : ''}
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Фамилия</label>
-                  <input type="text" class="form-control ${this.status.indexOf('errorSurname') != -1 ? 'bg-danger text-light' : ''}" id="surname">
+                  <input type="text" value="${this.surname}" class="form-control ${this.status.indexOf('errorSurname') != -1 ? 'bg-danger text-light' : ''}" id="surname">
                   ${this.status.indexOf('errorSurname') != -1 ? '<div class="form-text text-danger">Поле не должно быть пустым</div>' : ''}
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Email</label>
-                  <input type="email" class="form-control ${this.status.indexOf('errorEmptyEmail') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorEmail') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorDoubleEmail') != -1 ? 'bg-danger text-light' : ''}" id="email">
+                  <input type="email" value="${this.email}" class="form-control ${this.status.indexOf('errorEmptyEmail') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorEmail') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorDoubleEmail') != -1 ? 'bg-danger text-light' : ''}" id="email">
                   ${this.status.indexOf('errorEmptyEmail') != -1 ? '<div class="form-text text-danger">Поле не должно быть пустым</div>' : ''}
                   ${this.status.indexOf('errorEmail') != -1 ? '<div class="form-text text-danger">Не валидный email</div>' : ''}
                   ${this.status.indexOf('errorDoubleEmail') != -1 ? '<div class="form-text text-danger">Данный email зарегистрирован</div>' : ''}
                 </div>
                 <div class="mb-3">
                   <label lass="form-label">Пароль</label>
-                  <input type="password" class="form-control ${this.status.indexOf('errorEmptyPass') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorPass') != -1 ? 'bg-danger text-light' : ''}" id="password">
+                  <input type="password"  value="${this.password}" class="form-control ${this.status.indexOf('errorEmptyPass') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorPass') != -1 ? 'bg-danger text-light' : ''}" id="password">
                   ${this.status.indexOf('errorEmptyPass') != -1 ? '<div class="form-text text-danger">Поле не должно быть пустым</div>' : ''}
                   ${this.status.indexOf('errorPass') != -1 ? '<div class="form-text text-danger">Пароли не совпадают</div>' : ''}
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Повторите пароль</label>
-                    <input type="password" class="form-control ${this.status.indexOf('errorEmptyReapetPass') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorPass') != -1 ? 'bg-danger text-light' : ''}" id="repeatPassword">
+                    <input type="password" value="${this.repeatPassword}" class="form-control ${this.status.indexOf('errorEmptyReapetPass') != -1 ? 'bg-danger text-light' : ''} ${this.status.indexOf('errorPass') != -1 ? 'bg-danger text-light' : ''}" id="repeatPassword">
                     ${this.status.indexOf('errorEmptyReapetPass') != -1 ? '<div class="form-text text-danger">Поле не должно быть пустым</div>' : ''}
                     ${this.status.indexOf('errorPass') != -1 ? '<div class="form-text text-danger">Пароли не совпадают</div>' : ''}
                 </div>
@@ -133,6 +157,7 @@ class WorkingForm{
                 <button type="submit" class="btn btn-primary  send-form-request">Отправить</button>
             `;
             this.sendFormRequest();
+            this.changeInput();
         } 
     }
 }

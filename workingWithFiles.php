@@ -58,7 +58,7 @@ class WorkingWithFiles{
         $result = false;
         $data = WorkingWithFiles::getData();
         foreach($data as $d){
-            if($d[$field] == $meaning){
+            if(isset($d[$field]) and $d[$field] == $meaning){
                 $result = true;
             }
         }
